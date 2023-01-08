@@ -1,17 +1,11 @@
-import { ApolloServer } from "@apollo/server";
-import { startStandaloneServer } from "@apollo/server/standalone";
+import { makeSchema } from "nexus";
+import { join } from "path";
+import * as types from "./types";
 
-export const typeDefs = `#graphql
- type Link {
-    id: String
-    title: String
-    description: String
-    url: String
-    category: String
-    imageUrl: String
-    users: [String]
-  }
-  type Query {
-    links: [Link]!
-  }
-`;
+export const schema = makeSchema({
+  types,
+  outputs: {
+    typegen: join(process.cwd(), "generated/nexus-typegen.ts"),
+    schema: join(process.cwd(), "generated/schema.graphql"),
+  },
+});

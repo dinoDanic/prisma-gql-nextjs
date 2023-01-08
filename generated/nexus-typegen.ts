@@ -14,9 +14,18 @@ declare global {
 }
 
 export interface NexusGenInputs {
+  CreateProductInput: { // input type
+    categoryId: number; // Int!
+    code: string; // String!
+    currency: NexusGenEnums['Currency']; // Currency!
+    name: string; // String!
+    price: number; // Int!
+    userId: number; // Int!
+  }
 }
 
 export interface NexusGenEnums {
+  Currency: "EUR" | "HRK"
 }
 
 export interface NexusGenScalars {
@@ -28,7 +37,13 @@ export interface NexusGenScalars {
 }
 
 export interface NexusGenObjects {
+  Category: { // root type
+    id?: number | null; // Int
+    name?: string | null; // String
+  }
+  Mutation: {};
   Product: { // root type
+    categoryId?: number | null; // Int
     code?: string | null; // String
     currency?: string | null; // String
     id?: number | null; // Int
@@ -53,16 +68,26 @@ export interface NexusGenUnions {
 
 export type NexusGenRootTypes = NexusGenObjects
 
-export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars
+export type NexusGenAllTypes = NexusGenRootTypes & NexusGenScalars & NexusGenEnums
 
 export interface NexusGenFieldTypes {
+  Category: { // field return type
+    id: number | null; // Int
+    name: string | null; // String
+    products: Array<NexusGenRootTypes['Product'] | null> | null; // [Product]
+  }
+  Mutation: { // field return type
+    createProduct: NexusGenRootTypes['Product'] | null; // Product
+  }
   Product: { // field return type
+    category: NexusGenRootTypes['Category'] | null; // Category
+    categoryId: number | null; // Int
     code: string | null; // String
+    creator: NexusGenRootTypes['User'] | null; // User
     currency: string | null; // String
     id: number | null; // Int
     name: string | null; // String
     price: number | null; // Float
-    user: NexusGenRootTypes['User'] | null; // User
     userId: number | null; // Int
   }
   Query: { // field return type
@@ -79,13 +104,23 @@ export interface NexusGenFieldTypes {
 }
 
 export interface NexusGenFieldTypeNames {
+  Category: { // field return type name
+    id: 'Int'
+    name: 'String'
+    products: 'Product'
+  }
+  Mutation: { // field return type name
+    createProduct: 'Product'
+  }
   Product: { // field return type name
+    category: 'Category'
+    categoryId: 'Int'
     code: 'String'
+    creator: 'User'
     currency: 'String'
     id: 'Int'
     name: 'String'
     price: 'Float'
-    user: 'User'
     userId: 'Int'
   }
   Query: { // field return type name
@@ -102,6 +137,11 @@ export interface NexusGenFieldTypeNames {
 }
 
 export interface NexusGenArgTypes {
+  Mutation: {
+    createProduct: { // args
+      input?: NexusGenInputs['CreateProductInput'] | null; // CreateProductInput
+    }
+  }
 }
 
 export interface NexusGenAbstractTypeMembers {
@@ -112,9 +152,9 @@ export interface NexusGenTypeInterfaces {
 
 export type NexusGenObjectNames = keyof NexusGenObjects;
 
-export type NexusGenInputNames = never;
+export type NexusGenInputNames = keyof NexusGenInputs;
 
-export type NexusGenEnumNames = never;
+export type NexusGenEnumNames = keyof NexusGenEnums;
 
 export type NexusGenInterfaceNames = never;
 

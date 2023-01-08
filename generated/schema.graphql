@@ -2,13 +2,39 @@
 ### Do not make changes to this file directly
 
 
+type Category {
+  id: Int
+  name: String
+  products: [Product]
+}
+
+input CreateProductInput {
+  categoryId: Int!
+  code: String!
+  currency: Currency!
+  name: String!
+  price: Int!
+  userId: Int!
+}
+
+enum Currency {
+  EUR
+  HRK
+}
+
+type Mutation {
+  createProduct(input: CreateProductInput): Product
+}
+
 type Product {
+  category: Category
+  categoryId: Int
   code: String
+  creator: User
   currency: String
   id: Int
   name: String
   price: Float
-  user: User
   userId: Int
 }
 

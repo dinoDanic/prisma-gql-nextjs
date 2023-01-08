@@ -23,7 +23,7 @@ export const UsersQuery = extendType({
   definition(t) {
     t.list.field("users", {
       type: "User",
-      async resolve(root, args, ctx) {
+      async resolve() {
         return await prisma.user.findMany();
       },
     });
